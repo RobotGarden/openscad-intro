@@ -15,6 +15,7 @@ objects.
 
 1. Drawing a cube
 2. Sizing the cube, various ways (`cube(size=5)`, `cube(5)`, `cube(size=[10, 5, 2])`, `cube([10, 5, 2])`)
+3. Aside about numbers and lists
 3. Adjusting the view
 3. Modules and parameters, named parameters and positional parameters
 4. Centering a cube, and more about named and positional parameters (`cube(5, center)` vs. `cube(center=true, size=5)`)
@@ -27,6 +28,7 @@ objects.
 9. More 3D objects: cylinders and spheres (and cones)
 10. Special variables for curve quality: $fs, $fa, $fn, suggest using $fs and $fa at top of file
 11. Scaling objects, `cube(size=[10, 5, 2])` and `scale([10, 5, 2]) cube()`, `scale([10, 5, 2]) sphere()`
+12. Coloring objects, hiding them, and making them transparent: `color()`, `*`, and `%`
 
 # Other Topics
 
