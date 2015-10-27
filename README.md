@@ -34,6 +34,7 @@ objects.
 # Other Topics
 
 * Using an External Editor
+* Boolean operations: union, intersection, difference, and danger of difference with overlapping edges
 * Extrusion
 * Convex hull
 * Minkowski sum
