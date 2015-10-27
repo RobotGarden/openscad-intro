@@ -18,6 +18,7 @@ objects.
 3. Adjusting the view
 3. Modules and parameters, named parameters and positional parameters
 4. Centering a cube, and more about named and positional parameters (`cube(5, center)` vs. `cube(center=true, size=5)`)
+5. Aside about coordinates and printing: unitless, and can place later when printing, so origin doesn't matter
 5. Manipulating the cube: translation, omitting parameter names when there is only one parameter, translation vs. centering
 6. Getting help: OpenSCAD cheat sheet and manual
 6. Drawing multiple cubes, union is default, first lab: drawing an arch
