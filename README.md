@@ -24,7 +24,7 @@ objects.
 6. Drawing multiple cubes, union is default, first lab: drawing an arch
 7. Getting rid of magic numbers: variables, DRY
 8. Manipulating the cube: rotation
-9. More 3D objects: cylinders and spheres
+9. More 3D objects: cylinders and spheres (and cones)
 10. Special variables for curve quality: $fs, $fa, $fn, suggest using $fs and $fa at top of file
 11. Scaling objects, `cube(size=[10, 5, 2])` and `scale([10, 5, 2]) cube()`, `scale([10, 5, 2]) sphere()`
 
