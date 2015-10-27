@@ -26,8 +26,9 @@ objects.
 10. Special variables for curve quality: $fs, $fa, $fn, suggest using $fs and $fa at top of file
 11. Scaling objects, `cube(size=[10, 5, 2])` and `scale([10, 5, 2]) cube()`, `scale([10, 5, 2]) sphere()`
 
-# Advanced Topics
+# Other Topics
 
+* Using an External Editor
 * Extrusion
 * Convex hull
 * Minkowski sum
