@@ -15,6 +15,7 @@ objects.
 
 1. Drawing a cube
 2. Sizing the cube, various ways (`cube(size=5)`, `cube(5)`, `cube(size=[10, 5, 2])`, `cube([10, 5, 2])`)
+3. Adjusting the view
 3. Modules and parameters, named parameters and positional parameters
 4. Centering a cube, and more about named and positional parameters (`cube(5, center)` vs. `cube(center=true, size=5)`)
 5. Manipulating the cube: translation, omitting parameter names when there is only one parameter, translation vs. centering
