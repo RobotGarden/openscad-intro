@@ -28,7 +28,7 @@ objects.
 9. More 3D objects: cylinders and spheres (and cones)
 10. Special variables for curve quality: $fs, $fa, $fn, suggest using $fs and $fa at top of file
 11. Scaling objects, `cube(size=[10, 5, 2])` and `scale([10, 5, 2]) cube()`, `scale([10, 5, 2]) sphere()`
-12. Coloring objects, hiding them, and making them transparent: `color()`, `*`, and `%`
+12. Coloring objects, hiding them, highlighting them, and making them transparent: `color()`, `*`, `#`, and `%`
 
 # Other Topics
 
