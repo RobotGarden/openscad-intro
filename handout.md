@@ -1,4 +1,8 @@
-# OpenSCAD Class Handout
+# An Introduction to OpenSCAD
+
+## What is OpenSCAD?
+
+Pronounced &ldquote;open-ess-cad&rdquote;, according to their web site.
 
 ## Installing OpenSCAD
 
