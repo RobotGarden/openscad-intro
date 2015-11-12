@@ -33,4 +33,4 @@ Clicking and dragging in the view rotates the axes around so you can see all sid
 
 By default the view shows a *perspective* projection. That is, a 2-dimensional view of the 3D scene in which objects in the view seem smaller as they recede away. To see this, zoom the view so that the cube takes up much of the area of the pane. Notice that the edges of the cube converge toward a vanishing point.
 
-A perspective view is not always the best, because it makes it more difficult to determine whether object edges coincide. An alternative view is an *orthogonal* view, which can be selected via the menu by View > Orthogonal or by pressing the <img alt="Orthogonal view" src="images/orthogonal.png" /> button.
+A perspective view is not always the best, because it makes it more difficult to determine whether object edges coincide. An alternative view is an *orthogonal* view, which can be selected via the menu by View > Orthogonal or by pressing the <img alt="Orthogonal view" src="images/orthogonal.png" width="42" height="37" /> button.
