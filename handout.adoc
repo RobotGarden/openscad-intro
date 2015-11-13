@@ -1,6 +1,9 @@
-= An Introduction to OpenSCAD
 :imagesdir: ./images
-:toc:
+:toc: macro
+
+= An Introduction to OpenSCAD
+
+toc::[]
 
 == What is OpenSCAD?
 
