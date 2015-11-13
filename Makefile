@@ -1,7 +1,14 @@
 MARKDOWN=markdown
 ASCIIDOC=asciidoctor
 
+FILES=\
+  README.html \
+  handout.html \
+  ex1-solution.html \
+  ex2-solution.html \
+  ex3-solution.html
+
 %.html: %.adoc
 	$(ASCIIDOC) $<
 
-all: README.html handout.html ex1-solution.html ex2-solution.html
+all: $(FILES)

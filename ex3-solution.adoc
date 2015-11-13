@@ -1,0 +1,96 @@
+:imagesdir: ./images
+
+= Example 3 Solution
+
+== 1. The Water Molecule
+
+----
+$fs = .5;
+$fa = 3;
+
+oxygenSize = 4;
+hydrogenSize = 3;
+rodRadius = 1;
+rodLength = 12;
+
+sphere(r=oxygenSize);
+
+// The first rod and hydrogen atom.
+rotate([0, 90, 0])
+cylinder(r=rodRadius, h=rodLength);
+
+translate([rodLength, 0, 0])
+sphere(r=hydrogenSize);
+
+// The second rod and hydrogen atom.
+rotate([0, 0, -120]) {
+  rotate([0, 90, 0])
+  cylinder(r=rodRadius, h=rodLength);
+
+  translate([rodLength, 0, 0])
+  sphere(r=hydrogenSize);
+}
+----
+
+image::water-molecule.png[Water molecule, 315, 176]
+
+Note that there is redundancy in the two hydrogen atoms and rods. We
+will fix that by creating a user-defined *module*.
+
+== 2. The Colorized Molecule
+
+The colors are arbitrary, of course.
+
+----
+$fs = .5;
+$fa = 3;
+
+oxygenSize = 4;
+hydrogenSize = 3;
+rodRadius = 1;
+rodLength = 12;
+
+oxygenColor = "Tomato";
+hydrogenColor = "LightBlue";
+rodColor = "Gray";
+
+color(oxygenColor)
+sphere(r=oxygenSize);
+
+// The first rod and hydrogen atom.
+rotate([0, 90, 0])
+color(rodColor)
+cylinder(r=rodRadius, h=rodLength);
+
+translate([rodLength, 0, 0])
+color(hydrogenColor)
+sphere(r=hydrogenSize);
+
+// The second rod and hydrogen atom.
+rotate([0, 0, -120]) {
+  rotate([0, 90, 0])
+  color(rodColor)
+  cylinder(r=rodRadius, h=rodLength);
+
+  translate([rodLength, 0, 0])
+  color(hydrogenColor)
+  sphere(r=hydrogenSize);
+}
+----
+
+image::water-colorized.png[Colorized water molecule, 322, 172]
+
+== 3. Making the Rods Translucent
+
+We could add a variable for the rod opacity.
+
+----
+rodOpacity = .5;
+----
+
+And then modify the rod colorization in both places like this:
+
+----
+color(rodColor, rodOpacity)
+cylinder(r=rodRadius, h=rodLength);
+----
