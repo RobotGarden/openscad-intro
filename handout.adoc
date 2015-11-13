@@ -239,3 +239,93 @@ image:arch.png[Pi-shaped arch, 179, 130]
 5. Use the OpenSCAD cheat sheet to look at the documentation on the `scale()` operator module. Use `scale()` to double the size of your arch. Hint: Use braces, `{` and `}`, to group together what you want to scale.
 
 link:ex2-solution.adoc[Exercise 2 solution]
+
+== Parameterizing Your Model
+
+Narrowing the arch or removing the overhang required modifying multiple numbers in the script. OpenSCAD allows you to create _variables_ to avoid hard-coding numbers.
+
+Variables are assigned anywhere in your script. Variable names are
+similar to C++ or Java _identifiers_. As an example, here is a small
+script that uses a variable.
+
+----
+cubeSize = [10, 3, 6];
+
+cube(cubeSize, center=true);
+----
+
+The variable `cubeSize` is defined in an action of the form
+_variableName_ `=` _value_``;``. Variables can take on values of any
+OpenSCAD data type. Here, the `cubeSize` variable takes on a vector
+value.
+
+There are some differences between OpenSCAD variables and those you
+may be familiar with in other languages.
+
+* Variables may only be assigned once. That is, they are essentially
+  constants. The _last value_ assigned in the script takes
+  precedence. (Exceptions: New lexical scopes allow redefinition, and
+  command-line definitions can take precedence over script
+  definitions.)
+
+* Variables are untyped. Instead, they take on the type of the value
+  assigned to them.
+
+You may define as many variables as you like. Variables may be used in
+*expressions* to define parameter values.
+
+=== Comments
+
+You can also add comments to a script using either of the C++ comment
+styles: `//` introduces a single-line comment, while `/\*` and `*/`
+bracket either single-line or multi-line comments. There are also
+commands in the Edit menu to comment or uncomment selected sections in
+your script.
+
+As an example, here is a
+sample solution to the arch problem that uses four variables.
+
+----
+// Cross-sectional size of the uprights and crossbar.
+blockWidth = 5;
+
+// Width between the two uprights.
+uprightSeparation = 10;
+
+// Amount the crossbar extends beyond the uprights.
+crossbarOverhang = 3;
+
+// Height of the uprights. The bottom of the crossbar is at this height.
+uprightHeight = 15;
+
+translate([crossbarOverhang, 0, 0])
+cube(size=[blockWidth, blockWidth, uprightHeight]);
+
+translate([crossbarOverhang + blockWidth + uprightSeparation, 0, 0])
+cube(size=[blockWidth, blockWidth, uprightHeight]);
+
+translate([0, 0, uprightHeight])
+cube(size=[2*crossbarOverhang + 2*blockWidth + uprightSeparation, blockWidth, blockWidth]);
+----
+
+image:arch.png[Pi-shaped arch, 179, 130]
+
+Solving problem 4 in exercise 2 requires eliminating the overlap and
+reducing the upright separation. This can be effected by modifying two
+variable definitions without touching the rest of the script.
+
+----
+uprightSeparation = 5;
+crossbarOverhang = 0;
+----
+
+image::narrow-arch.png[Narrow arch, 141, 108]
+
+== More Operators and Objects
+
+Creating only rectilinear objects is a little boring. OpenSCAD allows
+creation of more object types and more operators to modify their
+rendering.
+
+=== Rotation
+
