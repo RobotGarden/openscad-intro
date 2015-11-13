@@ -18,11 +18,12 @@ OpenSCAD is a _constructive geometry_ 3D modeling program. It is less popular th
 * Good for designing CAD models, bad for artistic modeling.
 
 
-== Installing OpenSCAD
+== First Steps
+=== Installing OpenSCAD
 
 The latest release of OpenSCAD, as of this writing, is 2015.03-1. Download OpenSCAD from the OpenSCAD web site, http://www.openscad.org/downloads.html. There are installers for Windows, a DMG for OS X, and instructions for various Linux distributions.
 
-== First Steps
+=== The OpenSCAD Window
 
 When you start OpenSCAD a window will appear with three panes, an editor for modifying your OpenSCAD script, a view to display your 3D model, and a console for information and error messages.
 
