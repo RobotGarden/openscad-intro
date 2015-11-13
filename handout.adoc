@@ -82,8 +82,10 @@ image::righthand.jpg[Right-hand coordinate system, 185, 135]
 
 The addition of `size=[10, 5, 8]` is an example of passing a parameter to a module in order to modify what object it creates. The `cube()` module takes these parameters:
 
-* `size` &ndash; Either a single number or a _vector_ of three numbers giving the X, Y, and Z dimensions. If you supply a single number, it will be used for all three dimensions.
-* `center` &ndash; If `false`, a corner of the cuboid will be at the origin. If `true`, the center point of the cuboid will be at the origin.
+`size`::
+Either a single number or a _vector_ of three numbers giving the X, Y, and Z dimensions. If you supply a single number, it will be used for all three dimensions.
+`center`::
+If `false`, a corner of the cuboid will be at the origin. If `true`, the center point of the cuboid will be at the origin.
 
 Creating a cuboid with and without centering:
 
@@ -116,9 +118,12 @@ Note that the only way to specify `center` first is to include the names of both
 
 In the examples above, we see three different types of values that can be specified as parameters.
 
-* _numbers_ &ndash; In OpenSCAD these are always floating-point numbers. IEEE784 representation is used, giving about 17 digits of precision.
-* _vectors_ &ndash; Vectors are sequences of values enclosed in the square brackets `[` and `]`, and separated by commas. Vectors can hold items of any type, including other vectors: `[[1, 2, 3], [4, 5, 6]]`
-* _boolean values_ &ndash `true` and `false` are built-in boolean constants. There are also operators which give boolean results.
+_numbers_::
+In OpenSCAD these are always floating-point numbers. IEEE784 representation is used, giving about 17 digits of precision.
+_vectors_::
+Vectors are sequences of values enclosed in the square brackets `[` and `]`, and separated by commas. Vectors can hold items of any type, including other vectors: `[[1, 2, 3], [4, 5, 6]]`
+_boolean values_::
+`true` and `false` are built-in boolean constants. There are also operators which give boolean results.
 
 In addition, OpenSCAD supports _string values_ enclosed in double quotes.
 
@@ -212,9 +217,11 @@ image::walled-enclosure.png[Walled enclosure, 169, 107]
 
 The OpenSCAD documentation is viewable in a web browser. There are links in the Help menu to launch a browser window to the help pages. The most important of these links are:
 
-* Help &gt; Cheat Sheet &ndash; This launches a quick-reference page of all the modules and functions &ndash; we haven&rsquo;t talked about those yet &ndash; available. The documentation on each is usually quite good. All the parameters are explained, usually with examples.
+Help &gt; Cheat Sheet::
+This launches a quick-reference page of all the modules and functions &ndash; we haven&rsquo;t talked about those yet &ndash; available. The documentation on each is usually quite good. All the parameters are explained, usually with examples.
 
-* Help &gt; Documentation &ndash; This launches a menu of available documentation, including the OpenSCAD language reference. The language reference has information on some topics, such as data types, which are not listed on the cheat sheet.
+Help &gt; Documentation::
+This launches a menu of available documentation, including the OpenSCAD language reference. The language reference has information on some topics, such as data types, which are not listed on the cheat sheet.
 
 === Exercise 2
 
