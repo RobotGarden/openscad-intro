@@ -1,10 +1,10 @@
 # Exercise 1 Solution
 
-Original cube
+## 1. Original cube
 
     cube(size=[20, 3, 6]);
 
-Centered around the origin
+## 2. Centered around the origin
 
     cube(size=[20, 3, 6], center=true);
 
