@@ -1,5 +1,6 @@
 :imagesdir: ./images
 :toc: macro
+:toc-title: *Table of Contents*
 
 = An Introduction to OpenSCAD
 
