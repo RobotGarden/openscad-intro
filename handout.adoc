@@ -87,9 +87,9 @@ The addition of `size=[10, 5, 8]` is an example of passing a parameter to a modu
 
 Creating a cuboid with and without centering:
 
-image::centered-cube.png[Centered cuboid, 242, 189]
+image:centered-cube.png[Centered cuboid, 242, 189]
 &nbsp;&nbsp;&nbsp;
-image::sized-cube.png[Cuboid not centered, 242, 188]
+image:sized-cube.png[Cuboid not centered, 242, 188]
 
 Parameters in OpenSCAD work a little differently than parameters in some other languages.
 
