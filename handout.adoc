@@ -251,7 +251,7 @@ script that uses a variable.
 ----
 cubeSize = [10, 3, 6];
 
-cube(cubeSize, center=true);
+cube(size=cubeSize, center=true);
 ----
 
 The variable `cubeSize` is defined in an action of the form
@@ -274,6 +274,9 @@ may be familiar with in other languages.
 You may define as many variables as you like. Variables may be used in
 *expressions* to define parameter values.
 
+NOTE: Because variables cannot be redefined, you will never see `x =
+x+1` in an OpenSCAD script.
+
 === Comments
 
 You can also add comments to a script using either of the C++ comment
@@ -281,6 +284,12 @@ styles: `//` introduces a single-line comment, while `/\*` and `*/`
 bracket either single-line or multi-line comments. There are also
 commands in the Edit menu to comment or uncomment selected sections in
 your script.
+
+=== Expressions
+
+Variables and values can be combined in arithmetic expressions to form
+new values. The expression syntax is very similar to C++, Java, and
+other languages.
 
 As an example, here is a
 sample solution to the arch problem that uses four variables.
@@ -329,3 +338,297 @@ rendering.
 
 === Rotation
 
+The `rotate()` operator performs rotations on its target
+objects. There are several ways to perform rotations.
+
+`rotate(a=angle)`:: Rotates a given amount in degrees, around the Z axis.
+`rotate(a=[xAngle, yAngle, zAngle])`:: Rotates a given amount, in
+degrees, around the X, Y, and Z axes, in turn.
+`rotate(a=angle, v=[x, y, z])`:: Rotates a given amount, in degrees,
+around an arbitrary vector.
+
+All rotation amounts are in degrees and follow a right-hand rotation
+rule: if you point your right thumb toward the positive direction of the
+axis or vector around which you want to rotate, your fingers curl in
+the direction of positive rotation. Negative degrees go the opposite direction.
+
+image::rhr.png[Right-hand positive rotation]
+
+The most common operation is to rotate around a single axis. Here is
+an oblong cuboid in its original position and rotated 45 degrees
+around each axis.
+
+----
+separation = 20;
+cubeSize = [10, 5, 2];
+
+cube(cubeSize);
+
+translate([separation, 0, 0])
+rotate(a=[45, 0, 0])
+cube(cubeSize);
+
+translate([0, separation, 0])
+rotate(a=[0, 45, 0])
+cube(cubeSize);
+
+translate([0, 0, separation])
+rotate(a=[0, 0, 45])
+cube(cubeSize);
+----
+
+image::rotated-cubes.png[Rotated cuboids, 212, 155]
+
+This example shows two operators being applied, rotation and
+translation. They are applied _last to first_ &ndash; that is, here the rotation
+is applied first, then the translation. You will get different results if you
+reverse the order, as this example shows.
+
+[options="header"]
+|====
+| Rotation first | Translation first
+
+|`translate([20, 0, 0]) +
+rotate(a=[0, 0, 45]) +
+cube(size=[10, 5, 2]);` +
+image:rotate-first.png[Rotation first, 235, 130]
+
+|`rotate(a=[0, 0, 45]) +
+translate([20, 0, 0]) +
+cube(size=[10, 5, 2]);` +
+image:translate-first.png[Rotation first, 235, 130]
+|====
+
+You will probably seldom use the option to rotate around an arbitrary vector.
+One example of when it might be useful is rotating a cube around an axis
+through corner points, like this. (The view has been rotated to make it easier
+to see the result.)
+
+----
+rotate(a=60, v=[1, 1, 1])
+cube(size=10);
+----
+
+image::twirled-cube.png[Twirled cube, 178, 128]
+
+=== Coloring
+
+STL files for 3D printing do not preserve color information. However,
+it can be useful when creating models to render different portions in
+different colors. You can also render objects with translucence so you
+can look inside your model.
+
+`color(colorname, opacity)`:: Colors objects with any of about
+140 different, predefined color names (see the cheat sheet for
+details) and a given opacity from 0 (invisible) to 1 (opaque).
+`color([red, green, blue])`:: Colors objects with given RGB values
+specified from 0 to 1, and makes them completely opaque.
+`color([red, green, blue, opacity])`:: Colors objects with an RGB
+value and specified opacity from 0 to 1.
+
+NOTE: The cheat sheet does not specify the parameter names, so I will
+deviate from our standard practice and omit the parameter names even
+when passing two parameters.
+
+----
+cubeSize=[5, 5, 3];
+
+color("LightBlue")
+cube(size=cubeSize);
+
+translate([10, 0, 0])
+color([.8, 0, 0, .5])
+cube(size=cubeSize);
+
+translate([0, 10, 0])
+color("Green", .5)
+cube(size=cubeSize);
+----
+
+image::coloring-cubes.png[Coloring cubes, 289, 189]
+
+=== Debugging Options
+
+There are several ways to modify the rendering of objects to make
+debugging your script easier. These are single-character modifiers
+that can prefix any action in a script.
+
+`%`:: _Background_ &ndash; draw the object in a transparent gray, and
+omit the object from the generated STL file. This can be useful for
+temporarily making portions of a model transparent so you can see how
+it fits together with other objects, or for drawing explanatory parts
+that you do not want to print, but want to see next to the printed
+parts.
+`#`:: _Debug_ &ndash; draw the object as usual, but also draw it
+highlighted in a transparent red. This can be useful to temporarily
+highlight a portion of a model that you are modifying.
+`*`:: _Disable_ &ndash; omits an object from rendering. This can be
+useful to remove portions of a model temporarily while you are working
+on other portions.
+`!`:: _Root_ &ndash; causes only the indicated object to be
+rendered. Useful for working on a portion of a model at a time.
+
+[options="header", cols="1,2,2"]
+|===
+| Modifier | Code | Result
+
+| None +
+all objects rendered
+| `cube(size=[10, 8, 2]); +
+ +
+translate([5, 4, 1]) +
+cube(size=[3, 3, 12], center=true);`
+| image:original-object.png[Original object, 200, 166]
+
+| `%` +
+rendered in transparent gray
+| `cube(size=[10, 8, 2]); +
+ +
+%translate([5, 4, 1]) +
+cube(size=[3, 3, 12], center=true);`
+| image:background-modifier.png[Background modifier, 200, 166]
+
+| `#` +
+highlighted
+| `cube(size=[10, 8, 2]); +
+ +
+#translate([5, 4, 1]) +
+cube(size=[3, 3, 12], center=true);`
+| image:debug-modifier.png[Debug modifier, 200, 166]
+
+| `*` +
+object not rendered
+| `cube(size=[10, 8, 2]); +
+ +
+*translate([5, 4, 1]) +
+cube(size=[3, 3, 12], center=true);`
+| image:disable-modifier.png[Disable modifier, 200, 166]
+
+| `!` +
+object is the only thing rendered
+| `cube(size=[10, 8, 2]); +
+ +
+!translate([5, 4, 1]) +
+cube(size=[3, 3, 12], center=true);`
+| image:root-modifier.png[Root modifier, 200, 166]
+
+|===
+
+=== More Objects
+
+Drawing cuboids is getting boring, so let&rsquo;s learn some more
+objects.
+
+==== Spheres
+`sphere(r=radius)`:: Creates a sphere of a given
+radius, centered around the origin.
+`sphere(d=diameter)`:: Creates a sphere if a given diameter, centered
+around the origin.
+
+==== Cylinders
+`cylinder(r=radius, h=height, center=true|false)`:: Creates a cylinder
+of given radius and height, either sitting on the X-Y plane or
+centered around the origin. In either case the height is in the Z
+direction.
+`cylinder(d=diameter, h=height, center=true|false)`:: Creates a
+cylinder of given diameter and height.
+`cylinder(r1=radius1, r2=radius2, h=height, center=true|false)`::
+Creates a conical object that has differing top and bottom radii. This
+can be used to create cones or truncated cones.
+`cylinder(d1=diameter1, d2=diameter2, h=height, center=true|false)`::
+Creates a conical object that has differing top and bottom diameters. This
+can be used to create cones or truncated cones.
+
+The example below creates a dumbell shape along the X axis.
+
+----
+sphereSize = 6;
+barRadius = 2;
+barLength = 25;
+
+sphere(r=sphereSize);
+
+rotate([0, 90, 0])
+cylinder(r=barRadius, h=barLength);
+
+translate([barLength, 0, 0])
+sphere(r=sphereSize);
+----
+
+image::dumbell.png[Dumbell shape, 257, 148]
+
+=== Making Rounder Objects
+
+You can see in the example above that the cylinder isn&rsquo;t very
+&ldquo;round$rdquo; &ndash; it only has seven sides! And the spheres
+have obvious facets. OpenSCAD does not really render curves. Instead,
+it creates triangular faces which approximate the curved surface. If
+you want more smoothness you need to modify how OpenSCAD chooses the
+number of faces to generate. There are three variables controlling the
+smoothness of round surfaces.
+
+`$fs`:: The maximum length of an edge.
+`$fa`:: The maximum angle spanned by a single face.
+`$fn`:: The number of faces to use around a curve.
+
+You never use all three. Instead, you should either set both `$fs` and
+`$fa` (preferred) or use `$fn`. As well, `$fs` and `$fa` are used
+together by OpenSCAD, taking the larger of the two values for each
+face. Let's say we want the faces approximating our curved surfaces to
+take no more than 3 degrees of arc, or .5 units of length, whichever
+is larger. Just add these two lines to the top of the script, and the
+result is much smoother.
+
+----
+$fs = .2;
+$fa = 3;
+----
+
+image::smooth-dumbell.png[Smooth dumbell, 235, 127]
+
+Using very small values of `$fs` and `$fa` can make rendering much
+slower, especially when creating STL files, so you should match them
+to the precision needed in your final printing. You may have to print
+a sample or two before you figure out the right settings.
+
+You can also specify the variables on single objects instead. The two
+cylinders created by this script use faces that span 10 and 20 degrees
+of arc, respectively.
+
+----
+cylinder(r=5, h=10, $fa=10, $fs=.5);
+
+translate([15, 0, 0])
+cylinder(r=5, h=10, $fa=20, $fs=.5);
+----
+
+image::cylinders.png[Cylinders of differing precision, 193, 112]
+
+The other variable, `$fn`, is most useful when you want to fix the
+number of faces around a curve. For example, the following script
+generates a hexagonal prism, not a cylinder.
+
+----
+cylinder(r=5, h=10, $fn=6);
+----
+
+image::hex-prism.png[Hexagonal prism, 134, 102]
+
+=== Scaling Objects
+
+The `scale()` operator looked at briefly in the second exercise can be
+used to create ellipsoids or stretched cylinders.
+
+----
+$fs = .2;
+$fa = 1;
+
+scale([4, 15, 8])
+sphere(r=1);
+
+translate([15, 0, 0])
+scale([5, 2, 1])
+cylinder(r=1, h=20);
+----
+
+image::stretched-objects.png[Stretched sphere and cylinder, 202, 155]
