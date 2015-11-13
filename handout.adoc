@@ -1,5 +1,6 @@
 = An Introduction to OpenSCAD
 :imagesdir: ./images
+:toc:
 
 == What is OpenSCAD?
 
@@ -14,17 +15,17 @@ OpenSCAD is a _constructive geometry_ 3D modeling program. It is less popular th
 * Good for designing CAD models, bad for artistic modeling.
 
 
-=== Installing OpenSCAD
+== Installing OpenSCAD
 
 The latest release of OpenSCAD, as of this writing, is 2015.03-1. Download OpenSCAD from the OpenSCAD web site, http://www.openscad.org/downloads.html. There are installers for Windows, a DMG for OS X, and instructions for various Linux distributions.
 
-=== First Steps
+== First Steps
 
 When you start OpenSCAD a window will appear with three panes, an editor for modifying your OpenSCAD script, a view to display your 3D model, and a console for information and error messages.
 
 image::openscad-window.png[OpenSCAD window]
 
-=== Your First Model
+== Your First Model
 
 In the editor window, enter this (very small) script and press F5 to render the object in the view pane. You can instead press the preview button image:preview-button.png[asciidoc-test, 37, 42], which is the same as pressing F5, or use the menu option Design > Preview. After you have saved the file once, updating the preview is automatic as soon as the file is saved.
 
@@ -157,7 +158,7 @@ A perspective view is not always the best, because it makes it more difficult to
 
 link:ex1-solution.adoc[Exercise 1 solution]
 
-=== Manipulating Objects
+== Manipulating Objects
 
 To place objects somewhere other than the origin, you use the `translate()` module. For example, this offsets a cuboid so that it sits on the X-Y plane, but 10 units along the X axis and 5 along the Y axis.
 
