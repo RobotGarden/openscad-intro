@@ -16,20 +16,21 @@ objects.
 1. Drawing a cube. Objects (actions?) and parameters, semicolons
 2. Sizing the cube, various ways (`cube(size=5)`, `cube(5)`, `cube(size=[10, 5, 2])`, `cube([10, 5, 2])`)
 3. Aside about numbers and vectors
-3. Adjusting the view
-3. Modules and parameters, named parameters and positional parameters
-4. Centering a cube, and more about named and positional parameters (`cube(5, center)` vs. `cube(center=true, size=5)`)
-5. Aside about coordinates and printing: unitless, and can place later when printing, so origin doesn't matter
-5. Manipulating the cube: translation, omitting parameter names when there is only one parameter, translation vs. centering, braces to group a module
-6. Getting help: OpenSCAD cheat sheet and manual
-6. Drawing multiple cubes, union is default, first lab: drawing an arch
-7. Getting rid of magic numbers: variables, DRY, comments, assignment as constant vs. modifier
-8. Manipulating the cube: operators, rotation, order of manipulations, using multiple rotations
-9. More 3D objects: cylinders and spheres (and cones)
-10. Special variables for curve quality: $fs, $fa, $fn, suggest using $fs and $fa at top of file
-11. Scaling objects, `cube(size=[10, 5, 2])` and `scale([10, 5, 2]) cube()`, `scale([10, 5, 2]) sphere()`
-12. Coloring objects, hiding them, highlighting them, and making them transparent: `color()`, `*`, `#`, and `%`
-13. Omitting all other objects with `!`
+4. Adjusting the view.
+5. Modules and parameters, named parameters and positional parameters
+6. Centering a cube, and more about named and positional parameters (`cube(5, center)` vs. `cube(center=true, size=5)`)
+7. Aside about coordinates and printing: unitless, and can place later
+when printing, so origin doesn't matter. First lab, drawing a cube and manipulating the view.
+8. Manipulating the cube: translation, omitting parameter names when there is only one parameter, translation vs. centering, braces to group a module
+9. Getting help: OpenSCAD cheat sheet and manual
+10. Drawing multiple cubes, union is default, first lab: drawing an arch
+11. Getting rid of magic numbers: variables, DRY, comments, assignment as constant vs. modifier
+12. Manipulating the cube: operators, rotation, order of manipulations, using multiple rotations
+13. More 3D objects: cylinders and spheres (and cones)
+14. Special variables for curve quality: $fs, $fa, $fn, suggest using $fs and $fa at top of file
+15. Scaling objects, `cube(size=[10, 5, 2])` and `scale([10, 5, 2]) cube()`, `scale([10, 5, 2]) sphere()`
+16. Coloring objects, hiding them, highlighting them, and making them transparent: `color()`, `*`, `#`, and `%`
+17. Omitting all other objects with `!`
 
 # Other Topics
 
@@ -48,6 +49,7 @@ objects.
 * resize(), for use in modules that can't figure out a scale?
 * inf and nan, x==undef vs. x!=x for x is NaN
 * boolean values
+* Animation (perhaps toyEngine.scad)
 
 # Notes to Consider
 
@@ -57,4 +59,4 @@ objects.
 * `import` and `use`
 * Don't abut objects at edges. (Same problem as holes that abut at a face or edge.)
 * Accuracy of circular objects: inscribed polygons
-* Must use "convexity" when using linear_extrude and other operators
+* Must use &ldquo;convexity&rdquo; when using linear_extrude and other operators
