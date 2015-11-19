@@ -3,7 +3,7 @@ ASCIIDOC=asciidoctor
 
 FILES=\
   README.html \
-  handout.html \
+  part1.html \
   ex1-solution.html \
   ex2-solution.html \
   ex3-solution.html
