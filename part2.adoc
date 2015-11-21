@@ -134,7 +134,7 @@ plane and then _extrude_ it to give it volume.
 
 === 2D Drawing Actions
 
-=== Coloring
+== Coloring
 
 STL files for 3D printing do not preserve color information. However,
 it can be useful when creating models to render different portions in
@@ -170,7 +170,17 @@ cube(size=cubeSize);
 
 image::coloring-cubes.png[Coloring cubes, 289, 189]
 
-=== More Debugging Options
+== Iteration
+
+== Functions
+
+=== Built-in Functions
+
+=== User-defined Functions
+
+== Integration with Inkscape
+
+== More Debugging Options
 
 There are several ways to modify the rendering of objects to make
 debugging your script easier. These are single-character modifiers
