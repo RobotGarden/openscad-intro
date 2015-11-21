@@ -2,95 +2,78 @@
 
 = Example 3 Solution
 
-== 1. The Water Molecule
+== 1. The Crude Pawn Model
+
+----
+// A model of a (somewhat crude) chess pawn.
+
+// Dimensions of the base, the shaft, the collar, and the head.
+
+baseDiameter = 25;
+baseHeight = 5;
+
+headDiameter = 18;
+
+collarDiameter = 18;
+collarHeight = 4;
+collarAltitude = 30;
+
+shaftBottomDiameter = 15;
+shaftTopDiameter = 10;
+shaftLength = 35;
+
+// The base.
+cylinder(d=baseDiameter, h=baseHeight);
+
+// The tapering shaft.
+translate([0, 0, baseHeight])
+cylinder(d1=shaftBottomDiameter, d2=shaftTopDiameter, h=shaftLength);
+
+// The "collar", partway up the shaft.
+translate([0, 0, collarAltitude])
+cylinder(d=collarDiameter, h=collarHeight);
+
+// The head, a sphere.
+translate([0, 0, baseHeight + shaftLength + headDiameter/2 - 2])
+sphere(d=headDiameter);
+----
+
+== 2. Smoother and Rougher
+
+These assignments added to the model, as one eample, will decrease the size of the facets in the rendering.
 
 ----
 $fs = .5;
-$fa = 3;
-
-oxygenSize = 4;
-hydrogenSize = 3;
-rodRadius = 1;
-rodLength = 12;
-
-sphere(r=oxygenSize);
-
-// The first rod and hydrogen atom.
-rotate([0, 90, 0])
-cylinder(r=rodRadius, h=rodLength);
-
-translate([rodLength, 0, 0])
-sphere(r=hydrogenSize);
-
-// The second rod and hydrogen atom.
-rotate([0, 0, -120]) {
-  rotate([0, 90, 0])
-  cylinder(r=rodRadius, h=rodLength);
-
-  translate([rodLength, 0, 0])
-  sphere(r=hydrogenSize);
-}
+$fa = 10;
 ----
 
-image::water-molecule.png[Water molecule, 315, 176]
-
-Note that there is redundancy in the two hydrogen atoms and rods. We
-will fix that by creating a user-defined *module*.
-
-== 2. The Colorized Molecule
-
-The colors are arbitrary, of course.
+These assignments, as one example, make the facets larger than the default.
 
 ----
-$fs = .5;
-$fa = 3;
-
-oxygenSize = 4;
-hydrogenSize = 3;
-rodRadius = 1;
-rodLength = 12;
-
-oxygenColor = "Tomato";
-hydrogenColor = "LightBlue";
-rodColor = "Gray";
-
-color(oxygenColor)
-sphere(r=oxygenSize);
-
-// The first rod and hydrogen atom.
-rotate([0, 90, 0])
-color(rodColor)
-cylinder(r=rodRadius, h=rodLength);
-
-translate([rodLength, 0, 0])
-color(hydrogenColor)
-sphere(r=hydrogenSize);
-
-// The second rod and hydrogen atom.
-rotate([0, 0, -120]) {
-  rotate([0, 90, 0])
-  color(rodColor)
-  cylinder(r=rodRadius, h=rodLength);
-
-  translate([rodLength, 0, 0])
-  color(hydrogenColor)
-  sphere(r=hydrogenSize);
-}
+$fs = 5;
+$fa = 15;
 ----
 
-image::water-colorized.png[Colorized water molecule, 322, 172]
+== 3. Creating an STL File
 
-== 3. Making the Rods Translucent
-
-We could add a variable for the rod opacity.
+Values to use may vary depending on the printer and print settings. I have had success with use these assignments in several models, but rendering can be lengthy. The pawn takes about 20 seconds to render on my computer.
 
 ----
-rodOpacity = .5;
+$fs = .1; // 1/10 mm
+$fa = 3; // 3 degrees of arc
 ----
 
-And then modify the rod colorization in both places like this:
+== 4. Changing the Shape
+
+These variable values increase the size of the base and collar and make the shaft narrow. Nothing else in the script need change.
 
 ----
-color(rodColor, rodOpacity)
-cylinder(r=rodRadius, h=rodLength);
+baseDiameter = 35;
+collarDiameter = 25;
+shaftBottomDiameter = 8;
+shaftTopDiameter = 4;
 ----
+
+image:funny-pawn.png[Strangely shaped pawn, 244, 245]
+
+Note that since the _last_ assignment to a variable is the value that is used, you can add those 4 lines to the bottom without changing the original script.

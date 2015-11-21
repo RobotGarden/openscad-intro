@@ -1,0 +1,347 @@
+:imagesdir: ./images
+:toc: macro
+
+= An Introduction to OpenSCAD &ndash; Part 2
+
+toc::[]
+
+
+== Scaling Objects
+
+The `scale()` operator looked at briefly in the second exercise can be
+used to create ellipsoids or stretched cylinders.
+
+----
+$fs = .2;
+$fa = 1;
+
+scale([4, 15, 8])
+sphere(r=1);
+
+translate([15, 0, 0])
+scale([5, 2, 1])
+cylinder(r=1, h=20);
+----
+
+image::stretched-objects.png[Stretched sphere and cylinder, 202, 155]
+
+== Defining Your Own Modules
+
+In the previous exercise we had a lot of redundant code for the two
+hydrogen atoms and rods. In order to keep from repeating ourselves, we
+can package that rundundant code into a _user-defined module_ to
+augment the built-in modules.
+
+----
+module rodAndHydrogen() {
+  rotate([0, 90, 0])
+  cylinder(r=rodRadius, h=rodLength);
+  
+  translate([rodLength, 0, 0])
+  sphere(r=hydrogenSize);
+}
+
+// The first rod and hydrogen atom.
+rodAndHydrogen();
+
+// The second rod and hydrogen atom.
+rotate([0, 0, -120])
+rodAndHydrogen();
+----
+
+This example shows the pattern for defining your own modules.
+
+``module ``_moduleName_``(``_parameters_``) {`` +
+&nbsp;&nbsp;&nbsp;&nbsp; ... _module actions_ ... +
+``}``
+
+We can define a similar module with parameters to create an object
+somewhat like a playing piece for the game of jacks. (Yes, I know
+it&rsquo;s not exactly right.)
+
+----
+$fs = .5;
+$fa = 3;
+
+module bar(length, size) {
+  rotate([0, 90, 0])
+  cylinder(r=1, h=2*length, center=true);
+  
+  translate([length, 0, 0])
+  sphere(r=size);
+  
+  translate([-length, 0, 0])
+  sphere(r=size);
+}
+
+bar(length=10, size=2);
+----
+
+image::bar.png[Bar for a jacks piece, 143, 80]
+
+And then a couple of rotations and a central sphere.
+
+----
+bar(length=10, size=2);
+  
+rotate([0, 0, 90])
+bar(length=10, size=2);
+  
+rotate([0, 90, 0])
+bar(length=10, size=2);
+
+sphere(r=2);
+----
+
+image::jacks-piece.png[A jacks piece, 152, 112]
+
+But there are a lot of repeated numbers. We can make them variables, but
+instead we can give `bar()` default values for the parameters.
+
+----
+module bar(length=10, size=2) {
+  rotate([0, 90, 0])
+  cylinder(r=1, h=2*length, center=true);
+  
+  translate([length, 0, 0])
+  sphere(r=size);
+  
+  translate([-length, 0, 0])
+  sphere(r=size);
+}
+----
+
+And then our script is simpler.
+
+----
+bar();
+  
+rotate([0, 0, 90])
+bar();
+  
+rotate([0, 90, 0])
+bar();
+
+sphere(r=2);
+----
+
+
+
+== 2D Drawing and Extrusion
+
+Another way to generate a 3D object is to draw a 2D object in the X-Y
+plane and then _extrude_ it to give it volume.
+
+=== 2D Drawing Actions
+
+=== Coloring
+
+STL files for 3D printing do not preserve color information. However,
+it can be useful when creating models to render different portions in
+different colors. You can also render objects with translucence so you
+can look inside your model.
+
+`color(colorname, opacity)`:: Colors objects with any of about
+140 different, predefined color names (see the cheat sheet for
+details) and a given opacity from 0 (invisible) to 1 (opaque).
+`color([red, green, blue])`:: Colors objects with given RGB values
+specified from 0 to 1, and makes them completely opaque.
+`color([red, green, blue, opacity])`:: Colors objects with an RGB
+value and specified opacity from 0 to 1.
+
+NOTE: The cheat sheet does not specify the parameter names, so I will
+deviate from our standard practice and omit the parameter names even
+when passing two parameters.
+
+----
+cubeSize=[5, 5, 3];
+
+color("LightBlue")
+cube(size=cubeSize);
+
+translate([10, 0, 0])
+color([.8, 0, 0, .5])
+cube(size=cubeSize);
+
+translate([0, 10, 0])
+color("Green", .5)
+cube(size=cubeSize);
+----
+
+image::coloring-cubes.png[Coloring cubes, 289, 189]
+
+=== More Debugging Options
+
+There are several ways to modify the rendering of objects to make
+debugging your script easier. These are single-character modifiers
+that can prefix any action in a script.
+
+`%`:: _Background_ &ndash; draw the object in a transparent gray, and
+omit the object from the generated STL file. This can be useful for
+temporarily making portions of a model transparent so you can see how
+it fits together with other objects, or for drawing explanatory parts
+that you do not want to print, but want to see next to the printed
+parts.
+`#`:: _Debug_ &ndash; draw the object as usual, but also draw it
+highlighted in a transparent red. This can be useful to temporarily
+highlight a portion of a model that you are modifying.
+`*`:: _Disable_ &ndash; omits an object from rendering. This can be
+useful to remove portions of a model temporarily while you are working
+on other portions.
+`!`:: _Root_ &ndash; causes only the indicated object to be
+rendered. Useful for working on a portion of a model at a time.
+
+[options="header", cols="1,2,2"]
+|===
+| Modifier | Code | Result
+
+| None +
+all objects rendered
+| `cube(size=[10, 8, 2]); +
+ +
+translate([5, 4, 1]) +
+cube(size=[3, 3, 12], center=true);`
+| image:original-object.png[Original object, 200, 166]
+
+| `%` +
+rendered in transparent gray
+| `cube(size=[10, 8, 2]); +
+ +
+%translate([5, 4, 1]) +
+cube(size=[3, 3, 12], center=true);`
+| image:background-modifier.png[Background modifier, 200, 166]
+
+| `#` +
+highlighted
+| `cube(size=[10, 8, 2]); +
+ +
+#translate([5, 4, 1]) +
+cube(size=[3, 3, 12], center=true);`
+| image:debug-modifier.png[Debug modifier, 200, 166]
+
+| `*` +
+object not rendered
+| `cube(size=[10, 8, 2]); +
+ +
+*translate([5, 4, 1]) +
+cube(size=[3, 3, 12], center=true);`
+| image:disable-modifier.png[Disable modifier, 200, 166]
+
+| `!` +
+object is the only thing rendered
+| `cube(size=[10, 8, 2]); +
+ +
+!translate([5, 4, 1]) +
+cube(size=[3, 3, 12], center=true);`
+| image:root-modifier.png[Root modifier, 200, 166]
+
+|===
+
+== Dangling Things Moved from Part 1
+
+Exercise three questions and solution.
+
+. Write a script to render a water molecule, something like this. It
+consists of an oxygen atom connected to two hydrogen atoms. The angle
+made by the arrangement of the three atoms is 120 degrees.
++
+image::water-molecule.png[Water molecule, 315, 176]
+
+. Colorize the model. Choose a color for the oxygen atom, a different
+color for the hydrogen atoms, and a third color for the rod connecting
+them.
+
+. Modify the colorization to make the rods translucent.
+
+== 1. The Water Molecule
+
+----
+$fs = .5;
+$fa = 3;
+
+oxygenSize = 4;
+hydrogenSize = 3;
+rodRadius = 1;
+rodLength = 12;
+
+sphere(r=oxygenSize);
+
+// The first rod and hydrogen atom.
+rotate([0, 90, 0])
+cylinder(r=rodRadius, h=rodLength);
+
+translate([rodLength, 0, 0])
+sphere(r=hydrogenSize);
+
+// The second rod and hydrogen atom.
+rotate([0, 0, -120]) {
+  rotate([0, 90, 0])
+  cylinder(r=rodRadius, h=rodLength);
+
+  translate([rodLength, 0, 0])
+  sphere(r=hydrogenSize);
+}
+----
+
+image::water-molecule.png[Water molecule, 315, 176]
+
+Note that there is redundancy in the two hydrogen atoms and rods. We
+will fix that by creating a user-defined *module*.
+
+== The Colorized Molecule
+
+The colors are arbitrary, of course.
+
+----
+$fs = .5;
+$fa = 3;
+
+oxygenSize = 4;
+hydrogenSize = 3;
+rodRadius = 1;
+rodLength = 12;
+
+oxygenColor = "Tomato";
+hydrogenColor = "LightBlue";
+rodColor = "Gray";
+
+color(oxygenColor)
+sphere(r=oxygenSize);
+
+// The first rod and hydrogen atom.
+rotate([0, 90, 0])
+color(rodColor)
+cylinder(r=rodRadius, h=rodLength);
+
+translate([rodLength, 0, 0])
+color(hydrogenColor)
+sphere(r=hydrogenSize);
+
+// The second rod and hydrogen atom.
+rotate([0, 0, -120]) {
+  rotate([0, 90, 0])
+  color(rodColor)
+  cylinder(r=rodRadius, h=rodLength);
+
+  translate([rodLength, 0, 0])
+  color(hydrogenColor)
+  sphere(r=hydrogenSize);
+}
+----
+
+image::water-colorized.png[Colorized water molecule, 322, 172]
+
+== Making the Rods Translucent
+
+We could add a variable for the rod opacity.
+
+----
+rodOpacity = .5;
+----
+
+And then modify the rod colorization in both places like this:
+
+----
+color(rodColor, rodOpacity)
+cylinder(r=rodRadius, h=rodLength);
+----

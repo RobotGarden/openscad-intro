@@ -45,7 +45,7 @@ image::cube.png[Cube image, 373, 241]
 
 The cube is 1&times;1&times;1, which is quite small. Zoom the view using the zoom button
 image:zoom.png[Zoom button, 37, 41], or press the _zoom all_ button
-image:zoom-all.png[Zoom-all button, 36, 38] to scale the view to match the size of your model. You can also use the mouse wheel or a zoom gesture on your touchpad. All of the commands that affect the view are in the View menu as well.
+image:zoom-all.png[Zoom-all button, 36, 38] to adjust the view to match the size and position of your model. You can also use the mouse wheel or a zoom gesture on your touchpad. All of the commands that affect the view are in the View menu as well.
 
 Clicking and dragging in the view rotates the axes around so you can see all sides of your model. By default the origin is in the center of the view, and the view rotates around the origin. You can drag the view laterally without rotation by Ctrl-click and drag. After that the view rotates around the new center of the view, rather than the origin. There are also buttons below the view panel for choosing particular eye positions, such as top, right, and so on.
 
@@ -71,11 +71,15 @@ image::sized-cube.png[Sized cubeoid, 242, 188]
 
 === Coordinate System
 
-OpenSCAD is usually used to create STL files for 3D printing. STL files do not have a way to indicate a physical measurement to correspond to a unit of 1 in the STL file. Instead, the 3D printing or slicing program will have an option to specify whether to interpret the STL units as millimeters, inches, or some other measure.
+OpenSCAD is usually used to create STL files for 3D printing. STL
+files do not have a way to indicate a physical measurement to
+correspond to a unit of 1 in the STL file. Instead, the 3D printing or
+slicing program will have an option to specify whether to interpret
+the STL units as millimeters, tenths of inches, or some other measure.
 
 I usually design parts using millimeters, a practice that appears to be common among others using OpenSCAD, but you can make your own decision how to handle units of measure.
 
-The coordinate axes follow the right-hand rule where the arrangement of your thumb and first two fingers match the X, Y, and Z axes, respectively.
+The coordinate axes follow the right-hand rule where the arrangement of your thumb and first two fingers on your right hand match the X, Y, and Z axes, respectively.
 
 image::righthand.jpg[Right-hand coordinate system, 185, 135]
 
@@ -86,7 +90,8 @@ The addition of `size=[10, 5, 8]` is an example of passing a parameter to a modu
 `size`::
 Either a single number or a _vector_ of three numbers giving the X, Y, and Z dimensions. If you supply a single number, it will be used for all three dimensions.
 `center`::
-If `false`, a corner of the cuboid will be at the origin. If `true`, the center point of the cuboid will be at the origin.
+If `true`, the center point of the cuboid will be at the origin.
+If `false` or omitted, a corner of the cuboid will be at the origin.
 
 Creating a cuboid with and without centering:
 
@@ -169,7 +174,8 @@ link:ex1-solution.adoc[Exercise 1 solution]
 
 == Manipulating Objects
 
-To place objects somewhere other than the origin, you use the `translate()` module. For example, this offsets a cuboid so that it sits on the X-Y plane, but 10 units along the X axis and 5 along the Y axis.
+To place objects somewhere other than the origin, you use the
+`translate()` module. For example, this code offsets a cuboid so that it sits on the X-Y plane, but 10 units along the X axis and 5 along the Y axis.
 
     translate(v=[10, 5, 0]) {
       cube(size=[20, 3, 6]);
@@ -182,14 +188,25 @@ The `translate()` module is our first example of what OpenSCAD calls an _operato
     translate([10, 5, 0])
     cube(size=[20, 3, 6]);
 
-In this case the parameter name `v` has also been omitted.
+In this case the parameter name `v` has also been omitted. Some will
+indent the second line:
+
+----
+translate([10, 5, 0])
+    cube(size=[20, 3, 6]);
+----
+
+I tend not to indent unless using braces to wrap the target objects,
+since multiple operators may be combined, and I find the resulting
+indentation makes the script harder to read.
+
 
 === OpenSCAD Coding Style
 
 OpenSCAD is a language similar in syntax to C++ and Java. For that reason, using a writing style similar to what you might use in C++ or Java makes sense. The rest of the examples herein will use these rules. But they are my rules, not necessarily what you will see in other OpenSCAD scripts.
 
 * Opening braces will be on the same line as the operator they follow.
-* If braces are used to surround the operands of an operator module, the contents inside the braces will be indented. The indent amount will be two spaces. (I usually use 4 spaces for Java and C++, but the level of nesting is usually smaller in OpenSCAD, making the smaller amount of indentation workable.)
+* If braces are used to surround the operands of an operator module, the contents inside the braces will be indented. The default indent amount in the OpenSCAD editor is four spaces, but you can change this in the preferences dialog. I find two spaces is sufficient.
 * If braces are not used to surround the operand of an operator module, the operand will use the same level of indentation as the operator.
 * The parameter name will be omitted if a module takes a single parameter and included otherwise.
 
@@ -239,6 +256,29 @@ image:arch.png[Pi-shaped arch, 179, 130]
 5. Use the OpenSCAD cheat sheet to look at the documentation on the `scale()` operator module. Use `scale()` to double the size of your arch. Hint: Use braces, `{` and `}`, to group together what you want to scale.
 
 link:ex2-solution.adoc[Exercise 2 solution]
+
+== Debugging Help &ndash; Highlighting and Shadowing
+
+Different objects in your scripts can blend together in the 3D view, making it more difficult to figure out what is wrong if your model isn&lsquo;t exactly right. There are two prefix characters you can prepend to an object to cause it to be drawn specially, enabling you to see better how the parts fit together.
+
+`#`: Highlight &ndash; draw an object in a translucent red so it stands out.
+
+`%`: Shadow &ndash; draw an object in a translucent gray so you can see through it. This also omits the object from the rendered STL file.
+
+An example: here is a solution to the arch problem drawing one upright shadowed and the other highlighted.
+
+----
+%translate([5, 0, 0])
+cube(size=[5, 5, 15]);
+
+#translate([20, 0, 0])
+cube(size=[5, 5, 15]);
+
+translate([0, 0, 15])
+cube(size=[30, 5, 5]);
+----
+
+image:shadow-and-highlight.png[Highlight and shadow modifiers, 333, 263]
 
 == Parameterizing Your Model
 
@@ -321,7 +361,9 @@ image:arch.png[Pi-shaped arch, 179, 130]
 
 Solving problem 4 in exercise 2 requires eliminating the overlap and
 reducing the upright separation. This can be effected by modifying two
-variable definitions without touching the rest of the script.
+variable definitions without touching the rest of the script. Or, you
+can run OpenSCAD from the command line, specify new values for
+these variables, and render an STL file, all in one step.
 
 ----
 uprightSeparation = 5;
@@ -341,7 +383,7 @@ rendering.
 The `rotate()` operator performs rotations on its target
 objects. There are several ways to perform rotations.
 
-`rotate(a=angle)`:: Rotates a given amount in degrees, around the Z axis.
+`rotate(a=angle)`:: Rotates a given amount, in degrees, around the Z axis.
 `rotate(a=[xAngle, yAngle, zAngle])`:: Rotates a given amount, in
 degrees, around the X, Y, and Z axes, in turn.
 `rotate(a=angle, v=[x, y, z])`:: Rotates a given amount, in degrees,
@@ -350,7 +392,7 @@ around an arbitrary vector.
 All rotation amounts are in degrees and follow a right-hand rotation
 rule: if you point your right thumb toward the positive direction of the
 axis or vector around which you want to rotate, your fingers curl in
-the direction of positive rotation. Negative degrees go the opposite direction.
+the direction of positive rotation. Negative degrees rotate in the opposite direction.
 
 image::rhr.png[Right-hand positive rotation]
 
@@ -411,42 +453,6 @@ cube(size=10);
 
 image::twirled-cube.png[Twirled cube, 178, 128]
 
-=== Coloring
-
-STL files for 3D printing do not preserve color information. However,
-it can be useful when creating models to render different portions in
-different colors. You can also render objects with translucence so you
-can look inside your model.
-
-`color(colorname, opacity)`:: Colors objects with any of about
-140 different, predefined color names (see the cheat sheet for
-details) and a given opacity from 0 (invisible) to 1 (opaque).
-`color([red, green, blue])`:: Colors objects with given RGB values
-specified from 0 to 1, and makes them completely opaque.
-`color([red, green, blue, opacity])`:: Colors objects with an RGB
-value and specified opacity from 0 to 1.
-
-NOTE: The cheat sheet does not specify the parameter names, so I will
-deviate from our standard practice and omit the parameter names even
-when passing two parameters.
-
-----
-cubeSize=[5, 5, 3];
-
-color("LightBlue")
-cube(size=cubeSize);
-
-translate([10, 0, 0])
-color([.8, 0, 0, .5])
-cube(size=cubeSize);
-
-translate([0, 10, 0])
-color("Green", .5)
-cube(size=cubeSize);
-----
-
-image::coloring-cubes.png[Coloring cubes, 289, 189]
-
 === More Objects
 
 Drawing cuboids is getting boring, so let&rsquo;s learn some more
@@ -493,7 +499,7 @@ image::dumbell.png[Dumbell shape, 257, 148]
 === Making Rounder Objects
 
 You can see in the example above that the cylinder isn&rsquo;t very
-&ldquo;round$rdquo; &ndash; it only has seven sides! And the spheres
+&ldquo;round&rdquo; &ndash; it only has seven sides! And the spheres
 have obvious facets. OpenSCAD does not really render curves. Instead,
 it creates triangular faces which approximate the curved surface. If
 you want more smoothness you need to modify how OpenSCAD chooses the
@@ -508,20 +514,22 @@ You never use all three. Instead, you should either set both `$fs` and
 `$fa` (preferred) or use `$fn`. As well, `$fs` and `$fa` are used
 together by OpenSCAD, taking the larger of the two values for each
 face. Let's say we want the faces approximating our curved surfaces to
-take no more than 3 degrees of arc, or .5 units of length, whichever
+take no more than 8 degrees of arc, or .5 units of length, whichever
 is larger. Just add these two lines to the top of the script, and the
 result is much smoother.
 
 ----
-$fs = .2;
-$fa = 3;
+$fs = .5;
+$fa = 8;
 ----
 
-image::smooth-dumbell.png[Smooth dumbell, 235, 127]
+image::smooth-dumbell.png[Smooth dumbell, 199, 119]
 
 Using very small values of `$fs` and `$fa` can make rendering much
 slower, especially when creating STL files, so you should match them
-to the precision needed in your final printing. You may have to print
+to the precision needed in your final printing. The settings above
+change the STL rendering on
+my machine from almost instantaneous to 4 CPU-seconds. You may have to print
 a sample or two before you figure out the right settings.
 
 You can also specify the variables on single objects instead. The two
@@ -547,214 +555,128 @@ cylinder(r=5, h=10, $fn=6);
 
 image::hex-prism.png[Hexagonal prism, 134, 102]
 
-=== Scaling Objects
+== Writing STL Files
 
-The `scale()` operator looked at briefly in the second exercise can be
-used to create ellipsoids or stretched cylinders.
+For most people, the rendering in OpenSCAD is not the end
+goal. Instead, they want to take the model and print it on a 3D
+printer. For that purpose, you have to _render_ the model to a mesh of
+triangular faces, and then export that rendering as STL.
 
-----
-$fs = .2;
-$fa = 1;
-
-scale([4, 15, 8])
-sphere(r=1);
-
-translate([15, 0, 0])
-scale([5, 2, 1])
-cylinder(r=1, h=20);
-----
-
-image::stretched-objects.png[Stretched sphere and cylinder, 202, 155]
+First, press the render button, image:render-button.png[Button to
+render the model, 33, 38], or press F6. If you have a model with
+curves, and you are using small values for `$fs` and `$fa`, this can
+take some time. After the rendering is complete, you can export to STL
+by using the STL export button,
+image:stl-button.png[STL export button, 33, 38],
+or by selecting File > Export > Export as STL... in the menu.
 
 === Exercise 3
 
-1. Write a script to render a water molecule, something like this. It
-consists of an oxygen atom connected to two hydrogen atoms. The angle
-made by the arrangement of the three atoms is 120 degrees.
-+
-image::water-molecule.png[Water molecule, 315, 176]
+. Write a script to create a (somewhat crude) chess pawn something
+like this. The exact dimensions aren&rsquo;t that important. Use
+variables to control the various dimensions rather than hard-coding
+numbers.
+ +
+image:pawn.png[Chess pawn, 216, 252]
 
-2. Colorize the model. Choose a color for the oxygen atom, a different
-color for the hydrogen atoms, and a third color for the rod connecting
-them.
+. Modify the values of `$fs` and `$fa` to make the model
+smoother. Render the model by pressing the render button or F6. Notice
+that small values of `$fs` and `$fa` can make rendering very slow.
 
-3. Modify the colorization to make the rods translucent.
+. Choose values for `$fs` and `$fa` that you think are appropriate for
+printing on a 3D printer. (Make your best guess.) Render the model and
+then export to an STL file. Look at the file in a text editor, if you
+know how. It should start something like this: +
+``solid OpenSCAD_Model`` +
+``&nbsp;&nbsp;facet&nbsp;normal 0.996195 0.0871558 0`` +
+``&nbsp;&nbsp;&nbsp;&nbsp;outer loop`` +
+``&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vertex 12.5 0 5`` +
+``&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vertex 12.3101 2.1706 0`` +
+``&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vertex 12.3101 2.1706 5`` +
+``&nbsp;&nbsp;&nbsp;&nbsp;endloop`` +
+``&nbsp;&nbsp;endfacet`` +
+...
+
+. Modify the variables used in the model to make the base and collar
+wider while making the shaft narrower. Did you do a good job
+parameterizing your model to make it easy to customize?
 
 link:ex3-solution.adoc[Exercise 3 solution]
 
-== Defining Your Own Modules
+=== Boolean Operations
 
-In the previous exercise we had a lot of redundant code for the two
-hydrogen atoms and rods. In order to keep from repeating ourselves, we
-can package that rundundant code into a _user-defined module_ to
-augment the built-in modules.
+So far we have built up models by combining primitive objects and operators. We have, then, created a _union_ of multiple objects. _Union_ is an example of a boolean operator. OpenSCAD also supports two other boolean operations, _intersection_ and _difference_. The last of these, _difference_, is probably the most important, because it lets you create holes in other objects.
 
-----
-module rodAndHydrogen() {
-  rotate([0, 90, 0])
-  cylinder(r=rodRadius, h=rodLength);
-  
-  translate([rodLength, 0, 0])
-  sphere(r=hydrogenSize);
-}
-
-// The first rod and hydrogen atom.
-rodAndHydrogen();
-
-// The second rod and hydrogen atom.
-rotate([0, 0, -120])
-rodAndHydrogen();
-----
-
-This example shows the pattern for defining your own modules.
-
-``module ``_moduleName_``(``_parameters_``) {`` +
-&nbsp;&nbsp;&nbsp;&nbsp; ... _module actions_ ... +
-``}``
-
-We can define a similar module with parameters to create an object
-somewhat like a playing piece for the game of jacks. (Yes, I know
-it&rsquo;s not exactly right.)
-
-----
-$fs = .5;
-$fa = 3;
-
-module bar(length, size) {
-  rotate([0, 90, 0])
-  cylinder(r=1, h=2*length, center=true);
-  
-  translate([length, 0, 0])
-  sphere(r=size);
-  
-  translate([-length, 0, 0])
-  sphere(r=size);
-}
-
-bar(length=10, size=2);
-----
-
-image::bar.png[Bar for a jacks piece, 143, 80]
-
-And then a couple of rotations and a central sphere.
-
-----
-bar(length=10, size=2);
-  
-rotate([0, 0, 90])
-bar(length=10, size=2);
-  
-rotate([0, 90, 0])
-bar(length=10, size=2);
-
-sphere(r=2);
-----
-
-image::jacks-piece.png[A jacks piece, 152, 112]
-
-But there are a lot of repeated numbers. We can make them variables, but
-instead we can give `bar()` default values for the parameters.
-
-----
-module bar(length=10, size=2) {
-  rotate([0, 90, 0])
-  cylinder(r=1, h=2*length, center=true);
-  
-  translate([length, 0, 0])
-  sphere(r=size);
-  
-  translate([-length, 0, 0])
-  sphere(r=size);
-}
-----
-
-And then our script is simpler.
-
-----
-bar();
-  
-rotate([0, 0, 90])
-bar();
-  
-rotate([0, 90, 0])
-bar();
-
-sphere(r=2);
-----
-
-
-
-== 2D Drawing and Extrusion
-
-Another way to generate a 3D object is to draw a 2D object in the X-Y
-plane and then _extrude_ it to give it volume.
-
-=== 2D Drawing Actions
-
-=== Debugging Options
-
-There are several ways to modify the rendering of objects to make
-debugging your script easier. These are single-character modifiers
-that can prefix any action in a script.
-
-`%`:: _Background_ &ndash; draw the object in a transparent gray, and
-omit the object from the generated STL file. This can be useful for
-temporarily making portions of a model transparent so you can see how
-it fits together with other objects, or for drawing explanatory parts
-that you do not want to print, but want to see next to the printed
-parts.
-`#`:: _Debug_ &ndash; draw the object as usual, but also draw it
-highlighted in a transparent red. This can be useful to temporarily
-highlight a portion of a model that you are modifying.
-`*`:: _Disable_ &ndash; omits an object from rendering. This can be
-useful to remove portions of a model temporarily while you are working
-on other portions.
-`!`:: _Root_ &ndash; causes only the indicated object to be
-rendered. Useful for working on a portion of a model at a time.
-
-[options="header", cols="1,2,2"]
+[options="headers"]
 |===
-| Modifier | Code | Result
+| Script | Result
 
-| None +
-all objects rendered
-| `cube(size=[10, 8, 2]); +
+| `union() { +
+&nbsp;&nbsp;&nbsp;&nbsp;cube(size=[10, 10, 3], center=true); +
  +
-translate([5, 4, 1]) +
-cube(size=[3, 3, 12], center=true);`
-| image:original-object.png[Original object, 200, 166]
+&nbsp;&nbsp;&nbsp;&nbsp;cylinder(r=2, h=12, center=true, $fs=.5); +
+}`
+| image:union.png[Union of two objects, 200, 211]
 
-| `%` +
-rendered in transparent gray
-| `cube(size=[10, 8, 2]); +
+| `intersection() { +
+&nbsp;&nbsp;&nbsp;&nbsp;cube(size=[10, 10, 3], center=true); +
  +
-%translate([5, 4, 1]) +
-cube(size=[3, 3, 12], center=true);`
-| image:background-modifier.png[Background modifier, 200, 166]
+&nbsp;&nbsp;&nbsp;&nbsp;cylinder(r=2, h=12, center=true, $fs=.5); +
+}`
+| image:intersection.png[Union of two objects, 200, 211]
 
-| `#` +
-highlighted
-| `cube(size=[10, 8, 2]); +
+| `difference() { +
+&nbsp;&nbsp;&nbsp;&nbsp;cube(size=[10, 10, 3], center=true); +
  +
-#translate([5, 4, 1]) +
-cube(size=[3, 3, 12], center=true);`
-| image:debug-modifier.png[Debug modifier, 200, 166]
-
-| `*` +
-object not rendered
-| `cube(size=[10, 8, 2]); +
- +
-*translate([5, 4, 1]) +
-cube(size=[3, 3, 12], center=true);`
-| image:disable-modifier.png[Disable modifier, 200, 166]
-
-| `!` +
-object is the only thing rendered
-| `cube(size=[10, 8, 2]); +
- +
-!translate([5, 4, 1]) +
-cube(size=[3, 3, 12], center=true);`
-| image:root-modifier.png[Root modifier, 200, 166]
+&nbsp;&nbsp;&nbsp;&nbsp;cylinder(r=2, h=12, center=true, $fs=.5); +
+}`
+| image:difference.png[Union of two objects, 200, 211]
 
 |===
 
+
+== Pitfalls When Making Holes
+
+Union and intersection are straightforward to use and won&lsquo;t
+cause problems when rendering. _Difference_, however, can cause
+problems in the model that mess up the preview, or even mess up the
+STL file. The script below shows the problem.
+
+----
+difference() {
+	cylinder(r=5, h=5);
+	
+	translate([0, -8, 0])
+	cube(size=[8, 8, 5]);
+}
+----
+
+image:difference-problem.png[Problem using the difference operator, 275, 216]
+
+The script tries to cut a quarter out of a cylinder. It mostly looks
+OK, but there is a strange artifact at the top and bottom of the
+cut-out quarter. Let's highlight the cuboid using `#` and look at the
+result edge-on.
+
+image:difference-problem-highlighted.png[Difference problem
+highlighting the cube, 306, 260]
+&nbsp;&nbsp;&nbsp;&nbsp;
+image:difference-edge-on.png[Differnce problem edge-on, 295, 172]
+
+The cylinder and cuboid are exactly the same height. The problem is
+that the cuboid abuts the cylinder at the top and bottom faces. The
+_difference_ operator cuts a _volume_ out of an object, but doesn't
+cut faces out. This causes only the top and bottom faces of the
+cylinder to remain, but with zero volume. This actually renders to STL
+correctly, but the preview is messed up.
+
+To correct the problem, extend the cube slightly &ndash; or a lot!
+&ndash; above and below the cylinder. Here is is edge-on with the
+cuboid highlighted, and the resulting preview without highlighting.
+
+image:fixed-difference-edge-on.png[Fixed difference edge on, 327, 167]
+&nbsp;&nbsp;&nbsp;&nbsp;
+image:fixed-difference.png[Fixed difference preview, 265, 183]
+
+So, to avoid problems, *always cut out a larger chunk than you need*,
+to avoid having the objects involved in the `difference()` share faces.
