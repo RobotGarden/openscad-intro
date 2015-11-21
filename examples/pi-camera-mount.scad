@@ -67,9 +67,9 @@ difference() {
   cylinder(d=holeDiameter, h=2*maxModelSize, center=true);
   
   translate([mountBottomMargin + aperatureYOffset,
-              -(aperatureWidth + aperatureMargin)/2,
+              -aperatureWidth/2 - aperatureMargin,
               -maxModelSize])
-  cube(size=[aperatureWidth + aperatureMargin,
-             aperatureWidth + aperatureMargin,
+  cube(size=[aperatureWidth + 2*aperatureMargin,
+             aperatureWidth + 2*aperatureMargin,
              2*maxModelSize]);
 }
