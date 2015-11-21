@@ -874,6 +874,8 @@ image:complete-wrench.png[The completed wrench, 230, 110]
 You are to create a model of a mount for the Raspberry Pi camera.
 
 image:raspberry-pi-camera-bundle.jpg[Raspberry Pi camera, 325, 216]
+&nbsp;&nbsp;&nbsp;&nbsp;
+image:raspberrypi_camera.jpg[Raspberry Pi camera, 400, 300]
 
 The dimensions of the camera are as follows.
 
