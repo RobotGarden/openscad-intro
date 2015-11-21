@@ -1,6 +1,6 @@
 :imagesdir: ./images
 
-= Example 3 Solution
+= Exercise 3 Solution
 
 == 1. The Crude Pawn Model
 
@@ -63,7 +63,16 @@ $fs = .1; // 1/10 mm
 $fa = 3; // 3 degrees of arc
 ----
 
-== 4. Changing the Shape
+== 4. Tapered Octagonal Shaft
+
+Add a value for `$fn` when creating the &ldquo;cylinder&rdquo; for the shaft.
+
+----
+translate([0, 0, baseHeight])
+cylinder(d1=shaftBottomDiameter, d2=shaftTopDiameter, h=shaftLength, $fn=8);
+----
+
+== 5. Changing the Shape
 
 These variable values increase the size of the base and collar and make the shaft narrow. Nothing else in the script need change.
 

@@ -152,7 +152,7 @@ By default the view shows a _perspective_ projection. That is, a 2-dimensional v
 
 A perspective view is not always the best, because it makes it more difficult to determine whether object edges coincide. An alternative view is an _orthogonal_ view, which can be selected via the menu by View > Orthogonal or by pressing the image:orthogonal.png[Orthogonal view, 42, 37] button.
 
-=== Exercise 1
+== Exercise 1
 
 1. Create a cuboid that is 20 units long in the X direction, 3 in the Y direction, and 6 in the Z direction.
 
@@ -241,7 +241,7 @@ This launches a quick-reference page of all the modules and functions &ndash; we
 Help &gt; Documentation::
 This launches a menu of available documentation, including the OpenSCAD language reference. The language reference has information on some topics, such as data types, which are not listed on the cheat sheet.
 
-=== Exercise 2
+== Exercise 2
 
 1. Draw an arch using three cuboids, like the image below. Make the two uprights and the crossbar have the same cross-section, and the overhang of the crossbar the same on each end. (The exact dimensions aren&rsquo;t important.)
 +
@@ -257,15 +257,15 @@ image:arch.png[Pi-shaped arch, 179, 130]
 
 link:ex2-solution.adoc[Exercise 2 solution]
 
-== Debugging Help &ndash; Highlighting and Shadowing
+== Debugging Help &ndash; Drawing Highlighted and Transparent
 
 Different objects in your scripts can blend together in the 3D view, making it more difficult to figure out what is wrong if your model isn&lsquo;t exactly right. There are two prefix characters you can prepend to an object to cause it to be drawn specially, enabling you to see better how the parts fit together.
 
 `#`: Highlight &ndash; draw an object in a translucent red so it stands out.
 
-`%`: Shadow &ndash; draw an object in a translucent gray so you can see through it. This also omits the object from the rendered STL file.
+`%`: Transparent &ndash; draw an object in a translucent gray so you can see through it. This also omits the object from the rendered STL file.
 
-An example: here is a solution to the arch problem drawing one upright shadowed and the other highlighted.
+An example: here is a solution to the arch problem drawing one upright transparent and the other highlighted.
 
 ----
 %translate([5, 0, 0])
@@ -278,7 +278,7 @@ translate([0, 0, 15])
 cube(size=[30, 5, 5]);
 ----
 
-image:shadow-and-highlight.png[Highlight and shadow modifiers, 333, 263]
+image:shadow-and-highlight.png[Highlight and transparent modifiers, 333, 263]
 
 == Parameterizing Your Model
 
@@ -570,7 +570,7 @@ by using the STL export button,
 image:stl-button.png[STL export button, 33, 38],
 or by selecting File > Export > Export as STL... in the menu.
 
-=== Exercise 3
+== Exercise 3
 
 . Write a script to create a (somewhat crude) chess pawn something
 like this. The exact dimensions aren&rsquo;t that important. Use
@@ -596,6 +596,9 @@ know how. It should start something like this: +
 ``&nbsp;&nbsp;&nbsp;&nbsp;endloop`` +
 ``&nbsp;&nbsp;endfacet`` +
 ...
+
+. How would you change the conical shaft of the pawn into a tapered
+octagonal shaft?
 
 . Modify the variables used in the model to make the base and collar
 wider while making the shaft narrower. Did you do a good job
@@ -635,7 +638,7 @@ So far we have built up models by combining primitive objects and operators. We 
 |===
 
 
-== Pitfalls When Making Holes
+=== Pitfalls When Making Holes
 
 Union and intersection are straightforward to use and won&lsquo;t
 cause problems when rendering. _Difference_, however, can cause
@@ -679,4 +682,222 @@ image:fixed-difference-edge-on.png[Fixed difference edge on, 327, 167]
 image:fixed-difference.png[Fixed difference preview, 265, 183]
 
 So, to avoid problems, *always cut out a larger chunk than you need*,
-to avoid having the objects involved in the `difference()` share faces.
+to avoid having the objects involved in the `difference()` share
+faces.
+
+=== Safely &ldquo;Drilling&rdquo; Holes
+
+One approach to avoid the problem is to make any _holes_ extend very
+high and low. For example, heres a script that cuts some holes into a
+rectangular base. There is a variable `maxModelSize` that represents a
+limit on how big the model could possibly be. Holes extend that much
+below and above the X-Y plane. The second hole is
+highlighted to show that it extends a long way above and below the X-Y
+plane.
+
+----
+$fs = .5;
+$fa = 10;
+
+maxModelSize = 50;
+
+difference() {
+  cube(size=[20, 15, 3]);
+
+  translate([3, 3, 0])
+  cylinder(r=1, h=2*maxModelSize, center=true);
+
+  #translate([10, 10, 0])
+  cylinder(r=1, h=2*maxModelSize, center=true);
+
+  translate([17, 7, 0])
+  cylinder(r=1, h=2*maxModelSize, center=true);
+}
+----
+
+image:holes.png[Drilling holes, 286, 213]
+
+== A More Complicated Example
+
+I want to create a model of a wrench, something like this:
+
+image:harbor-freight-wrench.jpg[Adjustable wrench, 200, 200]
+
+To save some time, the model will be a little simpler, nonadjustable,
+with a rectangular handle rather than tapering, and a circular
+head. Let&lsquo;s create the model in several steps.
+
+=== The Wrench Handle
+
+We can start with a simple rectangle.
+
+----
+handleLength = 45;
+handleWidth = 10;
+handleHeight = 3;
+
+translate([0, -handleWidth/2, 0])
+cube(size=[handleLength, handleWidth, handleHeight]);
+----
+
+image:handle1.png[Rectangular handle, 231, 101]
+
+The far end should be rounded, though, so we&lsquo;ll shorten the
+rectangle and add a cylinder.
+
+----
+translate([0, -handleWidth/2, 0])
+cube(size=[handleLength - handleWidth/2, handleWidth, handleHeight]);
+
+translate([handleLength - handleWidth/2, 0, 0])
+cylinder(d=handleWidth, h=handleHeight);
+----
+
+I&lsquo;ve highlighted the cylinder to show how the objects fit
+together.
+
+image:handle2.png[Rectangular handle with round end, 225, 92]
+
+And we need a hole in the end, which I&rsquo;ve highlighted below.
+
+----
+maxModelHeight = 10;
+handleHoleDiameter = handleWidth - 4;
+
+difference() {
+  union() {
+    translate([0, -handleWidth/2, 0])
+    cube(size=[handleLength - handleWidth/2, handleWidth, handleHeight]);
+    
+    translate([handleLength - handleWidth/2, 0, 0])
+    cylinder(d=handleWidth, h=handleHeight);
+  }
+  
+  #translate([handleLength - handleHoleDiameter/2 - 2, 0, 0])
+  cylinder(d=handleHoleDiameter, h=2*maxModelHeight, center=true);
+}
+----
+
+image:handle3.png[Handle with hole, 212, 122]
+
+=== The Wrench Head
+
+The head of the wrench will be a cylinder centered at the origin.
+
+----
+headDiameter = 2*handleWidth;
+
+cylinder(d=headDiameter, h=handleHeight);
+----
+
+image:head1.png[Round head of the wrench, 239, 104]
+
+We need a slot in the head. The slot should be roughly rectangular,
+but with a rounded end. Here is the code for the slot, and an image of
+how the slot fits with the head.
+
+----
+slotWidth = 10;
+slotLength = headDiameter * 3/4;
+slotRoundingRadius = 8;
+
+translate([-headDiameter/6, -slotWidth/2, -maxModelHeight])
+intersection() {
+  cube(size=[headDiameter, slotWidth, 2*maxModelHeight]);
+    
+  translate([slotRoundingRadius, slotWidth/2, 0])
+  cylinder(r=slotRoundingRadius, h=2*maxModelHeight);
+}
+----
+
+image:head2.png[The head with the slot cut out, 151, 121]
+
+Now we need to rotate the slot around to complete the wrench.
+
+----
+// A wrench model.
+
+$fs = .5;
+$fa = 10;
+
+// A size used for making holes. Any part of the model that gets
+// a hole should lie within the two planes z = +/- maxModelHeight.
+maxModelHeight = 10;
+
+// Dimensions of the wrench handle and hole at the end.
+handleLength = 45;
+handleWidth = 10;
+handleHeight = 3;
+
+handleHoleDiameter = handleWidth - 4;
+
+// Dimensions of the head end and the slot.
+headDiameter = 2*handleWidth;
+
+slotWidth = 10;
+slotLength = headDiameter * 3/4;
+slotRoundingRadius = 8;
+slotRotation = 30;
+
+difference() {
+  // The handle and head, minus the slot and hole.
+  union() {
+    cylinder(d=headDiameter, h=handleHeight);
+
+    translate([0, -handleWidth/2, 0])
+    cube(size=[handleLength - handleWidth/2, handleWidth, handleHeight]);
+
+    translate([handleLength - handleWidth/2, 0, 0])
+    cylinder(d=handleWidth, h=handleHeight);
+  }
+
+  // The hole at the end of the handle.
+  translate([handleLength - handleHoleDiameter/2 - 2, 0, 0])
+  cylinder(d=handleHoleDiameter, h=2*maxModelHeight, center=true);
+
+  // The slot in the head.
+  rotate(180 + slotRotation)
+  translate([-headDiameter/6, -slotWidth/2, -maxModelHeight])
+  intersection() {
+    cube(size=[headDiameter, slotWidth, 2*maxModelHeight]);
+    
+    translate([slotRoundingRadius, slotWidth/2, 0])
+    cylinder(r=slotRoundingRadius, h=2*maxModelHeight);
+  }
+}
+----
+
+image:complete-wrench.png[The completed wrench, 230, 110]
+
+== Exercise 4
+
+You are to create a model of a mount for the Raspberry Pi camera.
+
+image:raspberry-pi-camera-bundle.jpg[Raspberry Pi camera, 325, 216]
+
+The dimensions of the camera are as follows.
+
+image:Raspberry-Pi-Camera-Module-Diagram.png[Camera dimensions]
+
+You can see an example of a commercial camera mount below.
+
+image:green-transparent-case-for-raspberry-pi-camera-2-221-p.jpg[Sample
+camera mount, 207, 261]
+
+We can make it more rectilinear, though, and without a top covering
+piece.
+
+image:rpi-camera-mount.png[Sample Raspberry Pi camera mount, 325, 284]
+
+This is a difficult problem that requires you to use cuboids and
+cylinders, boolean operations, and rotations. To avoid getting stuck,
+concentrate on one part of the mount at a time. For example, if you
+don't know how to create the whole mount, can you create the base? Or
+can you create the main part of the mount with just the square hole
+for the camera lens?
+
+More hints: model both the base and the upright portions as horizontal
+in the X-Y plane, and then rotate the base as a last step. Make sure
+your holes are of sufficient depth to cut them out completely.
+
+link:ex4-solution.adoc[Exercise 4 solution]
