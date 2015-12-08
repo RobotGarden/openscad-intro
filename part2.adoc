@@ -1,7 +1,7 @@
 :imagesdir: ./images
 :toc: macro
 
-= An Introduction to OpenSCAD &ndash; Part 2
+= An Introduction to OpenSCAD--Part 2
 
 toc::[]
 
@@ -51,13 +51,15 @@ rodAndHydrogen();
 
 This example shows the pattern for defining your own modules.
 
-``module ``_moduleName_``(``_parameters_``) {`` +
-&nbsp;&nbsp;&nbsp;&nbsp; ... _module actions_ ... +
-``}``
+----
+module moduleName(... parameters ...) {
+    ... module actions ...
+}
+----
 
 We can define a similar module with parameters to create an object
 somewhat like a playing piece for the game of jacks. (Yes, I know
-it&rsquo;s not exactly right.)
+it's not exactly right.)
 
 ----
 $fs = .5;
@@ -186,19 +188,19 @@ There are several ways to modify the rendering of objects to make
 debugging your script easier. These are single-character modifiers
 that can prefix any action in a script.
 
-`%`:: _Background_ &ndash; draw the object in a transparent gray, and
+`%`:: _Background_--draw the object in a transparent gray, and
 omit the object from the generated STL file. This can be useful for
 temporarily making portions of a model transparent so you can see how
 it fits together with other objects, or for drawing explanatory parts
 that you do not want to print, but want to see next to the printed
 parts.
-`#`:: _Debug_ &ndash; draw the object as usual, but also draw it
+`#`:: _Debug_--draw the object as usual, but also draw it
 highlighted in a transparent red. This can be useful to temporarily
 highlight a portion of a model that you are modifying.
-`*`:: _Disable_ &ndash; omits an object from rendering. This can be
+`*`:: _Disable_--omits an object from rendering. This can be
 useful to remove portions of a model temporarily while you are working
 on other portions.
-`!`:: _Root_ &ndash; causes only the indicated object to be
+`!`:: _Root_--causes only the indicated object to be
 rendered. Useful for working on a portion of a model at a time.
 
 [options="header", cols="1,2,2"]

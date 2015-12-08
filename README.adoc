@@ -65,4 +65,4 @@ when printing, so origin doesn't matter. First lab, drawing a cube and manipulat
 * `import` and `use`
 * Don't abut objects at edges. (Same problem as holes that abut at a face or edge.)
 * Accuracy of circular objects: inscribed polygons
-* Must use &ldquo;convexity&rdquo; when using linear_extrude and other operators
+* Must use "`convexity`" when using linear_extrude and other operators

@@ -65,7 +65,7 @@ $fa = 3; // 3 degrees of arc
 
 == 4. Tapered Octagonal Shaft
 
-Add a value for `$fn` when creating the &ldquo;cylinder&rdquo; for the shaft.
+Add a value for `$fn` when creating the "`cylinder`" for the shaft.
 
 ----
 translate([0, 0, baseHeight])

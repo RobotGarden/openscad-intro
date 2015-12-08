@@ -7,14 +7,14 @@ toc::[]
 
 == What is OpenSCAD?
 
-Pronounced &ldquo;open-ess-cad,&rdquo; according to the OpenSCAD web site.
+Pronounced "`open-ess-cad,`" according to the OpenSCAD web site.
 
 OpenSCAD is a _constructive geometry_ 3D modeling program. It is less popular than some other 3D modeling tools such as FreeCAD, SketchUp, or Blender, but has some advantages for creating 3D part designs:
 
 * Parts are created by writing a script, not with the mouse. This makes some things easier for part design, but other things harder.
 * Can create libraries of part designs for others to use. Or use existing libraries such as https://github.com/openscad/MCAD[MCAD].
 * Parts can be _parameterized_ to make then easy to customize.
-* It&rsquo;s harder, in general, to create a non-solid model than with some other 3D modeling tools &ndash; important when 3D printing.
+* It's harder, in general, to create a non-solid model than with some other 3D modeling tools--important when 3D printing.
 * Good for designing CAD models, bad for artistic modeling.
 
 
@@ -43,7 +43,7 @@ image::cube.png[Cube image, 373, 241]
 
 === Manipulating the View
 
-The cube is 1&times;1&times;1, which is quite small. Zoom the view using the zoom button
+The cube is 1x1x1, which is quite small. Zoom the view using the zoom button
 image:zoom.png[Zoom button, 37, 41], or press the _zoom all_ button
 image:zoom-all.png[Zoom-all button, 36, 38] to adjust the view to match the size and position of your model. You can also use the mouse wheel or a zoom gesture on your touchpad. All of the commands that affect the view are in the View menu as well.
 
@@ -55,11 +55,11 @@ The use of `cube();` above demonstrates 2 things about the structure of OpenSCAD
 
 1. `cube()` is an example of a predefined OpenSCAD module. In this case it is what is called an _object module_, because it creates 3D objects. The parentheses are required when invoking a module.
 
-2. The whole line &ndash; with the semicolon &ndash; is an example of an OpenSCAD _action_. (We would probably call it a _statement_ in another language.) OpenSCAD scripts consist of a number of _actions_. Each action may span multiple lines but must end in a semicolon (or sometimes be wrapped in braces: `{` and `}`).
+2. The whole line--with the semicolon--is an example of an OpenSCAD _action_. (We would probably call it a _statement_ in another language.) OpenSCAD scripts consist of a number of _actions_. Each action may span multiple lines but must end in a semicolon (or sometimes be wrapped in braces: `{` and `}`).
 
 === Sizing the Cube
 
-We obviously don&rsquo;t want cubes of only one size. We can also create _cuboids_ where the sides have different lengths.
+We obviously don't want cubes of only one size. We can also create _cuboids_ where the sides have different lengths.
 
 ----
 cube(size=[10, 5, 8]);
@@ -96,7 +96,7 @@ If `false` or omitted, a corner of the cuboid will be at the origin.
 Creating a cuboid with and without centering:
 
 image:centered-cube.png[Centered cuboid, 242, 189]
-&nbsp;&nbsp;&nbsp;
+
 image:sized-cube.png[Cuboid not centered, 242, 188]
 
 Parameters in OpenSCAD work a little differently than parameters in some other languages.
@@ -105,9 +105,9 @@ Parameters in OpenSCAD work a little differently than parameters in some other l
 * They have names which may be provided. If they are not provided, then the parameters need to be in the right order. `cube()` expects `size` first, and `center` second, so `cube(size=[10, 5, 8])` and `cube([10, 5, 8])` are equivalent.
 * If you use the parameter names, you can specify the parameters in any order.
 * Some parameters may take values of different types. `cube()` allows `size` to be a number or a vector, for example.
-* You can specify parameters the module does not expect. These will be silently ignored. (A bad design decision, IMHO, but probably caused by the handling of _special variables_ &ndash; see below.)
+* You can specify parameters the module does not expect. These will be silently ignored. (A bad design decision, IMHO, but probably caused by the handling of _special variables_--see below.)
 
-Based on these characteristics of parameters, all of these actions are equivalent ways to create a 10&times;5&times;8 cuboid:
+Based on these characteristics of parameters, all of these actions are equivalent ways to create a 10x5x8 cuboid:
 
 ----
 cube(size=[10, 5, 8]);
@@ -145,7 +145,7 @@ Now that we have a cuboid that has differing edge lengths, we can tell the diffe
 
 image::standard-views.png[Six standard viewpoints, 266, 38]
 
-Clicking and dragging the mouse rotates the view about the point in the center of the view, by default the origin. You can instead drag the view left or right by Ctrl-click and drag, or by dragging with the right mouse button. If you want to center the axes in the view again, press the &ldquo;reset view&rdquo; button
+Clicking and dragging the mouse rotates the view about the point in the center of the view, by default the origin. You can instead drag the view left or right by Ctrl-click and drag, or by dragging with the right mouse button. If you want to center the axes in the view again, press the "`reset view`" button
 image:reset-view-button.png[Reset view button, 16, 17].
 
 By default the view shows a _perspective_ projection. That is, a 2-dimensional view of the 3D scene in which objects in the view seem smaller as they recede away. To see this, zoom the view so that the cube takes up much of the area of the pane. Notice that the edges of the cube converge toward a vanishing point.
@@ -236,14 +236,14 @@ image::walled-enclosure.png[Walled enclosure, 169, 107]
 The OpenSCAD documentation is viewable in a web browser. There are links in the Help menu to launch a browser window to the help pages. The most important of these links are:
 
 Help &gt; Cheat Sheet::
-This launches a quick-reference page of all the modules and functions &ndash; we haven&rsquo;t talked about those yet &ndash; available. The documentation on each is usually quite good. All the parameters are explained, usually with examples.
+This launches a quick-reference page of all the modules and functions--we haven't talked about those yet--available. The documentation on each is usually quite good. All the parameters are explained, usually with examples.
 
 Help &gt; Documentation::
 This launches a menu of available documentation, including the OpenSCAD language reference. The language reference has information on some topics, such as data types, which are not listed on the cheat sheet.
 
 == Exercise 2
 
-1. Draw an arch using three cuboids, like the image below. Make the two uprights and the crossbar have the same cross-section, and the overhang of the crossbar the same on each end. (The exact dimensions aren&rsquo;t important.)
+1. Draw an arch using three cuboids, like the image below. Make the two uprights and the crossbar have the same cross-section, and the overhang of the crossbar the same on each end. (The exact dimensions aren't important.)
 +
 image:arch.png[Pi-shaped arch, 179, 130]
 
@@ -257,13 +257,13 @@ image:arch.png[Pi-shaped arch, 179, 130]
 
 link:ex2-solution.adoc[Exercise 2 solution]
 
-== Debugging Help &ndash; Drawing Highlighted and Transparent
+== Debugging Help--Drawing Highlighted and Transparent
 
-Different objects in your scripts can blend together in the 3D view, making it more difficult to figure out what is wrong if your model isn&lsquo;t exactly right. There are two prefix characters you can prepend to an object to cause it to be drawn specially, enabling you to see better how the parts fit together.
+Different objects in your scripts can blend together in the 3D view, making it more difficult to figure out what is wrong if your model isn't exactly right. There are two prefix characters you can prepend to an object to cause it to be drawn specially, enabling you to see better how the parts fit together.
 
-`#`: Highlight &ndash; draw an object in a translucent red so it stands out.
+`#`: Highlight--draw an object in a translucent red so it stands out.
 
-`%`: Transparent &ndash; draw an object in a translucent gray so you can see through it. This also omits the object from the rendered STL file.
+`%`: Transparent--draw an object in a translucent gray so you can see through it. This also omits the object from the rendered STL file.
 
 An example: here is a solution to the arch problem drawing one upright transparent and the other highlighted.
 
@@ -422,7 +422,7 @@ cube(cubeSize);
 image::rotated-cubes.png[Rotated cuboids, 212, 155]
 
 This example shows two operators being applied, rotation and
-translation. They are applied _last to first_ &ndash; that is, here the rotation
+translation. They are applied _last to first_--that is, here the rotation
 is applied first, then the translation. You will get different results if you
 reverse the order, as this example shows.
 
@@ -455,7 +455,7 @@ image::twirled-cube.png[Twirled cube, 178, 128]
 
 === More Objects
 
-Drawing cuboids is getting boring, so let&rsquo;s learn some more
+Drawing cuboids is getting boring, so let's learn some more
 objects.
 
 ==== Spheres
@@ -498,8 +498,8 @@ image::dumbell.png[Dumbell shape, 257, 148]
 
 === Making Rounder Objects
 
-You can see in the example above that the cylinder isn&rsquo;t very
-&ldquo;round&rdquo; &ndash; it only has seven sides! And the spheres
+You can see in the example above that the cylinder isn't very
+"`round`"--it only has seven sides! And the spheres
 have obvious facets. OpenSCAD does not really render curves. Instead,
 it creates triangular faces which approximate the curved surface. If
 you want more smoothness you need to modify how OpenSCAD chooses the
@@ -573,7 +573,7 @@ or by selecting File > Export > Export as STL... in the menu.
 == Exercise 3
 
 . Write a script to create a (somewhat crude) chess pawn something
-like this. The exact dimensions aren&rsquo;t that important. Use
+like this. The exact dimensions aren't that important. Use
 variables to control the various dimensions rather than hard-coding
 numbers.
  +
@@ -586,16 +586,19 @@ that small values of `$fs` and `$fa` can make rendering very slow.
 . Choose values for `$fs` and `$fa` that you think are appropriate for
 printing on a 3D printer. (Make your best guess.) Render the model and
 then export to an STL file. Look at the file in a text editor, if you
-know how. It should start something like this: +
-``solid OpenSCAD_Model`` +
-``&nbsp;&nbsp;facet&nbsp;normal 0.996195 0.0871558 0`` +
-``&nbsp;&nbsp;&nbsp;&nbsp;outer loop`` +
-``&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vertex 12.5 0 5`` +
-``&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vertex 12.3101 2.1706 0`` +
-``&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vertex 12.3101 2.1706 5`` +
-``&nbsp;&nbsp;&nbsp;&nbsp;endloop`` +
-``&nbsp;&nbsp;endfacet`` +
+know how. It should start something like this:
++
+----
+solid OpenSCAD_Model
+  facet normal 0.996195 0.0871558 0
+    outer loop
+      vertex 12.5 0 5
+      vertex 12.3101 2.1706 0
+      vertex 12.3101 2.1706 5
+    endloop
+  endfacet
 ...
+----
 
 . How would you change the conical shaft of the pawn into a tapered
 octagonal shaft?
@@ -610,29 +613,36 @@ link:ex3-solution.adoc[Exercise 3 solution]
 
 So far we have built up models by combining primitive objects and operators. We have, then, created a _union_ of multiple objects. _Union_ is an example of a boolean operator. OpenSCAD also supports two other boolean operations, _intersection_ and _difference_. The last of these, _difference_, is probably the most important, because it lets you create holes in other objects.
 
-[options="headers"]
+[options="headers", cols="1a,1"]
 |===
 | Script | Result
 
-| `union() { +
-&nbsp;&nbsp;&nbsp;&nbsp;cube(size=[10, 10, 3], center=true); +
- +
-&nbsp;&nbsp;&nbsp;&nbsp;cylinder(r=2, h=12, center=true, $fs=.5); +
-}`
-| image:union.png[Union of two objects, 200, 211]
+|
+----
+union() {
+    cube(size=[10, 10, 3], center=true);
+    cylinder(r=2, h=12, center=true, $fs=.5);
+}
+----
 
-| `intersection() { +
-&nbsp;&nbsp;&nbsp;&nbsp;cube(size=[10, 10, 3], center=true); +
- +
-&nbsp;&nbsp;&nbsp;&nbsp;cylinder(r=2, h=12, center=true, $fs=.5); +
-}`
+|image:union.png[Union of two objects, 200, 211]
+
+|
+----
+intersection() {
+    cube(size=[10, 10, 3], center=true);
+    cylinder(r=2, h=12, center=true, $fs=.5);
+}
+
 | image:intersection.png[Union of two objects, 200, 211]
 
-| `difference() { +
-&nbsp;&nbsp;&nbsp;&nbsp;cube(size=[10, 10, 3], center=true); +
- +
-&nbsp;&nbsp;&nbsp;&nbsp;cylinder(r=2, h=12, center=true, $fs=.5); +
-}`
+|
+----
+difference() {
+    cube(size=[10, 10, 3], center=true);
+    cylinder(r=2, h=12, center=true, $fs=.5);
+}
+
 | image:difference.png[Union of two objects, 200, 211]
 
 |===
@@ -640,7 +650,7 @@ So far we have built up models by combining primitive objects and operators. We 
 
 === Pitfalls When Making Holes
 
-Union and intersection are straightforward to use and won&lsquo;t
+Union and intersection are straightforward to use and won't
 cause problems when rendering. _Difference_, however, can cause
 problems in the model that mess up the preview, or even mess up the
 STL file. The script below shows the problem.
@@ -663,7 +673,7 @@ result edge-on.
 
 image:difference-problem-highlighted.png[Difference problem
 highlighting the cube, 306, 260]
-&nbsp;&nbsp;&nbsp;&nbsp;
+
 image:difference-edge-on.png[Differnce problem edge-on, 295, 172]
 
 The cylinder and cuboid are exactly the same height. The problem is
@@ -673,19 +683,19 @@ cut faces out. This causes only the top and bottom faces of the
 cylinder to remain, but with zero volume. This actually renders to STL
 correctly, but the preview is messed up.
 
-To correct the problem, extend the cube slightly &ndash; or a lot!
-&ndash; above and below the cylinder. Here is is edge-on with the
+To correct the problem, extend the cube slightly--or a lot!--above
+and below the cylinder. Here is is edge-on with the
 cuboid highlighted, and the resulting preview without highlighting.
 
 image:fixed-difference-edge-on.png[Fixed difference edge on, 327, 167]
-&nbsp;&nbsp;&nbsp;&nbsp;
+
 image:fixed-difference.png[Fixed difference preview, 265, 183]
 
 So, to avoid problems, *always cut out a larger chunk than you need*,
 to avoid having the objects involved in the `difference()` share
 faces.
 
-=== Safely &ldquo;Drilling&rdquo; Holes
+=== Safely "`Drilling`" Holes
 
 One approach to avoid the problem is to make any _holes_ extend very
 high and low. For example, heres a script that cuts some holes into a
@@ -725,7 +735,7 @@ image:harbor-freight-wrench.jpg[Adjustable wrench, 200, 200]
 
 To save some time, the model will be a little simpler, nonadjustable,
 with a rectangular handle rather than tapering, and a circular
-head. Let&lsquo;s create the model in several steps.
+head. Let's create the model in several steps.
 
 === The Wrench Handle
 
@@ -742,7 +752,7 @@ cube(size=[handleLength, handleWidth, handleHeight]);
 
 image:handle1.png[Rectangular handle, 231, 101]
 
-The far end should be rounded, though, so we&lsquo;ll shorten the
+The far end should be rounded, though, so we'll shorten the
 rectangle and add a cylinder.
 
 ----
@@ -753,12 +763,12 @@ translate([handleLength - handleWidth/2, 0, 0])
 cylinder(d=handleWidth, h=handleHeight);
 ----
 
-I&lsquo;ve highlighted the cylinder to show how the objects fit
+I've highlighted the cylinder to show how the objects fit
 together.
 
 image:handle2.png[Rectangular handle with round end, 225, 92]
 
-And we need a hole in the end, which I&rsquo;ve highlighted below.
+And we need a hole in the end, which I've highlighted below.
 
 ----
 maxModelHeight = 10;
@@ -874,7 +884,7 @@ image:complete-wrench.png[The completed wrench, 230, 110]
 You are to create a model of a mount for the Raspberry Pi camera.
 
 image:raspberry-pi-camera-bundle.jpg[Raspberry Pi camera, 325, 216]
-&nbsp;&nbsp;&nbsp;&nbsp;
+
 image:raspberrypi_camera.jpg[Raspberry Pi camera, 400, 300]
 
 The dimensions of the camera are as follows.
