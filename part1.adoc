@@ -633,6 +633,7 @@ intersection() {
     cube(size=[10, 10, 3], center=true);
     cylinder(r=2, h=12, center=true, $fs=.5);
 }
+----
 
 | image:intersection.png[Union of two objects, 200, 211]
 
@@ -642,6 +643,7 @@ difference() {
     cube(size=[10, 10, 3], center=true);
     cylinder(r=2, h=12, center=true, $fs=.5);
 }
+----
 
 | image:difference.png[Union of two objects, 200, 211]
 
